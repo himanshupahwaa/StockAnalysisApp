@@ -32,7 +32,6 @@ if st.button("Analyze Stock"):
             summary = ""
             for article in news_data['results']:
                 summary += article['description'] + "\n\n"
-            st.write(summary)
             # Call Together API for analysis (replace with actual Together client code)
             response = together_client.chat.completions.create(
                 model="meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
