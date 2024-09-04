@@ -6,9 +6,9 @@ import os
 from datetime import datetime
 load_dotenv()
 
-# Define a function to fetch stock news
+
 def fetch_stock_news(ticker, api_key, limit=10,order="desc"):
-    today = datetime.now().strftime("%Y-%m-%d")  # Get today's date in YYYY-MM-DD format
+    today = datetime.now().strftime("%Y-%m-%d")
     url = f"https://api.polygon.io/v2/reference/news?ticker={ticker}&limit={limit}&order={order}&published_utc.gte={today}&published_utc.lte={today}&apiKey={api_key}"
         
     response = requests.get(url)
@@ -32,7 +32,6 @@ if st.button("Analyze Stock"):
             summary = ""
             for article in news_data['results']:
                 summary += article['description'] + "\n\n"
-            # Call Together API for analysis (replace with actual Together client code)
             response = together_client.chat.completions.create(
                 model="meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
                 messages=[
@@ -59,7 +58,6 @@ if st.button("Analyze Stock"):
             
             analysis = response.choices[0].message.content
 
-            # Display analysis in a scrollable text box
             st.subheader("Stock Analysis")
             st.markdown(analysis)
 
