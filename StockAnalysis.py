@@ -16,7 +16,7 @@ def fetch_stock_news(ticker, api_key, limit=10):
 # App interface
 st.title("Stock Analyzer")
 
-ticker = st.text_input("Enter Stock Ticker:")
+ticker = st.text_input("Enter Stock Ticker:").upper()
 api_key = os.getenv("POLYGON_API_KEY")
 together_client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
 if st.button("Analyze Stock"):
