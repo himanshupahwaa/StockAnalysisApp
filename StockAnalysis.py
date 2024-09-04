@@ -43,7 +43,7 @@ if st.button("Analyze Stock"):
                         
                         {summary}
                         
-                        It should be an easy read and assertive"""
+                        It should be an easy read and simple to understand"""
                     }
                 ],
                 temperature=0.11,
