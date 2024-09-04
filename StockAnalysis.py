@@ -1,6 +1,7 @@
 import streamlit as st
 from together import Together
 import requests
+import os
 
 # Define a function to fetch stock news
 def fetch_stock_news(ticker, api_key, limit=10):
@@ -16,8 +17,8 @@ def fetch_stock_news(ticker, api_key, limit=10):
 st.title("Stock Analyzer")
 
 ticker = st.text_input("Enter Stock Ticker:")
-api_key = 'ZUQ2NFhpmAtxFh7Y_AmM4hDniQDS8m4V'
-together_client = Together(api_key="4b2b1acd8adcfee962218615cd8b17cf9d7dde89b4af99b16495b6896d600ba7")
+api_key = os.getenv("POLYGON_API_KEY")
+together_client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
 if st.button("Analyze Stock"):
     if ticker and api_key:
         news_data = fetch_stock_news(ticker, api_key)
@@ -37,7 +38,8 @@ if st.button("Analyze Stock"):
                     },
                     {
                         "role": "user",
-                        "content": f"""Go over the summary about the {ticker} stock given below, and give your analysis.
+                        "content": f"""Go over the summary about the {ticker} stock given below, and give your analysis on why
+                        is it a good or a bad stock right now.
                         
                         {summary}
                         
@@ -49,7 +51,6 @@ if st.button("Analyze Stock"):
                 top_k=50,
                 repetition_penalty=1,
                 stop=["<|eot_id|>"],
-                max_tokens = 500
             )
             
             analysis = response.choices[0].message.content
