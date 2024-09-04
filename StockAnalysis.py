@@ -43,7 +43,7 @@ if st.button("Analyze Stock"):
                         
                         {summary}
                         
-                        It should be an easy read and simple to understand"""
+                        It should be an easy read and assertive"""
                     }
                 ],
                 temperature=0.11,
@@ -51,6 +51,7 @@ if st.button("Analyze Stock"):
                 top_k=50,
                 repetition_penalty=1,
                 stop=["<|eot_id|>"],
+                max_tokens = 500
             )
             
             analysis = response.choices[0].message.content
