@@ -1,11 +1,16 @@
 import streamlit as st
+from dotenv import load_dotenv
 from together import Together
 import requests
 import os
+from datetime import datetime
+load_dotenv()
 
 # Define a function to fetch stock news
-def fetch_stock_news(ticker, api_key, limit=10):
-    url = f"https://api.polygon.io/v2/reference/news?ticker={ticker}&limit={limit}&apiKey={api_key}"
+def fetch_stock_news(ticker, api_key, limit=10,order="desc"):
+    today = datetime.now().strftime("%Y-%m-%d")  # Get today's date in YYYY-MM-DD format
+    url = f"https://api.polygon.io/v2/reference/news?ticker={ticker}&limit={limit}&order={order}&published_utc.gte={today}&published_utc.lte={today}&apiKey={api_key}"
+        
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
@@ -14,7 +19,7 @@ def fetch_stock_news(ticker, api_key, limit=10):
         return None
 
 # App interface
-st.title("Stock Analyzer")
+st.title("Stock Advice")
 
 ticker = st.text_input("Enter Stock Ticker:").upper()
 api_key = os.getenv("POLYGON_API_KEY")
@@ -27,7 +32,7 @@ if st.button("Analyze Stock"):
             summary = ""
             for article in news_data['results']:
                 summary += article['description'] + "\n\n"
-
+            st.write(summary)
             # Call Together API for analysis (replace with actual Together client code)
             response = together_client.chat.completions.create(
                 model="meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
@@ -43,7 +48,7 @@ if st.button("Analyze Stock"):
                         
                         {summary}
                         
-                        It should be an short, easy to read and assertive. Always give your recommendation"""
+                        It should be easy to read and assertive. Always give your recommendation"""
                     }
                 ],
                 temperature=0.11,
