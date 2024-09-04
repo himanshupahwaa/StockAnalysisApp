@@ -2,7 +2,7 @@ import streamlit as st
 from together import Together
 import requests
 import os
-
+st.write("App is starting...")
 # Define a function to fetch stock news
 def fetch_stock_news(ticker, api_key, limit=10):
     url = f"https://api.polygon.io/v2/reference/news?ticker={ticker}&limit={limit}&apiKey={api_key}"
